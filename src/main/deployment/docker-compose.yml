@@ -1,26 +1,36 @@
+version: "3.7"
 services:
-  backend:
+  postgres_db:
+    image: 'postgres'
+    container_name: db_postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: demo_db
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    networks:
+      - playground-network
+  employee_management_application:
     container_name: employee-management-application
     build: .
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/test
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: pass
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.jdbc.Driver
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_SQL_INIT_MODE: always
-      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
     depends_on:
-      - mysql
-    ports:
-      - 8081:8081
-  mysql:
-    image: mysql:8
-    container_name: employee-management-db
+      - postgres_db
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: test
-      MYSQL_USER: user
-      MYSQL_PASSWORD: pass
-    ports:
-      - 3306:3306
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/demo_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_SQL_INIT_MODE=always
+      - MAIL_HOST=localhost
+      - MAIL_PORT=1025
+    networks:
+      - playground-network
+
+networks:
+  playground-network:
+    ipam:
+      driver: default
