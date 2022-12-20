@@ -1,18 +1,18 @@
-package tech.ilgrig.employeemanagmentapp.model;
+package tech.ilgrig.employeemanagmentapp.employees;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity(name = "Employee")
 @Table(name = "employee")
-public class Employee implements Serializable {
+public class Employee {
     @Id
     @SequenceGenerator(
             name = "employee_sequence",
@@ -97,4 +97,5 @@ public class Employee implements Serializable {
                 ", employeeCode='" + employeeCode + '\'' +
                 '}';
     }
+
 }
