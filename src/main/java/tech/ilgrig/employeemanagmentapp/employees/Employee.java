@@ -1,18 +1,18 @@
 package tech.ilgrig.employeemanagmentapp.employees;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+import java.io.Serializable;
+
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity(name = "Employee")
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Serializable {
     @Id
     @SequenceGenerator(
             name = "employee_sequence",
@@ -32,45 +32,53 @@ public class Employee {
 
     @Column(
             name = "first_name",
-            updatable = true
+            updatable = true,
+            columnDefinition = "TEXT"
     )
     private String firstName;
 
     @Column(
             name = "last_name",
-            updatable = true
+            updatable = true,
+            columnDefinition = "TEXT"
     )
     private String lastName;
 
     @Column(
             name = "email",
             updatable = true,
-            nullable = false
+            nullable = false,
+            columnDefinition = "TEXT"
     )
     private String email;
 
     @Column(
             name = "image_url",
-            updatable = true
+            updatable = true,
+            columnDefinition = "TEXT"
     )
     private String imageUrl;
 
     @Column(
             name = "title",
-            updatable = true
+            updatable = true,
+            columnDefinition = "TEXT"
     )
 
     private String title;
     @Column(
             name = "phone",
-            updatable = true
+            updatable = true,
+            columnDefinition = "TEXT"
     )
     private String phone;
 
     @Column(
             name = "employee_code",
             updatable = false,
-            nullable = false
+            nullable = false,
+            columnDefinition = "TEXT"
+
     )
     private String employeeCode;
 
@@ -97,5 +105,4 @@ public class Employee {
                 ", employeeCode='" + employeeCode + '\'' +
                 '}';
     }
-
 }

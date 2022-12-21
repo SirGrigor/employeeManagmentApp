@@ -1,9 +1,7 @@
 package tech.ilgrig.employeemanagmentapp.employees;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-import tech.ilgrig.employeemanagmentapp.employees.DTO.EmployeeDTO;
 import tech.ilgrig.employeemanagmentapp.utils.EmailValidator;
 import tech.ilgrig.employeemanagmentapp.utils.EmployeeAppErrorMessage;
 
@@ -13,44 +11,44 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class EmployeeService {
-    private static EmployeeRepository employeeRepository;
 
-    public void addEmployee(EmployeeDTO employeeDTO) {
-        employeeDTO.setEmployeeCode(UUID.randomUUID().toString());
-        if (employeeRepository.findEmployeeByEmail(employeeDTO.getEmail()).isPresent()) {
-            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_NOT_FOUND_BY_USERNAME, employeeDTO.getEmail());
+    private final EmployeeRepository employeeRepository;
+
+    public Employee addEmployee(Employee employee) {
+        employee.setEmployeeCode(UUID.randomUUID().toString());
+        if (employeeRepository.findEmployeeByEmail(employee.getEmail()).isPresent()) {
+            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_NOT_FOUND_BY_USERNAME, employee.getEmail());
         }
 
-        if (!EmailValidator.validateEmail(employeeDTO.getEmail())) {
-            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_EMAIL_NOT_VALID_SEMANTICALLY, employeeDTO.getEmail());
+        if (!EmailValidator.validateEmail(employee.getEmail())) {
+            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_EMAIL_NOT_VALID_SEMANTICALLY, employee.getEmail());
         }
-        employeeRepository.save(EmployeeDTO.employeeDTOToEmployee(employeeDTO));
+        return employeeRepository.save(employee);
     }
 
     public List<Employee> findAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    public Employee updateEmployee(EmployeeDTO employeeDTO) {
-        if (!employeeRepository.existsById(employeeDTO.getId())) {
-            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_WITH_USERNAME_ALREADY_EXISTS, employeeDTO.getId());
+    public Employee updateEmployee(Employee employee) {
+        if (!employeeRepository.existsById(employee.getId())) {
+            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_WITH_USERNAME_ALREADY_EXISTS, employee.getId());
         }
-        return employeeRepository.save(EmployeeDTO.employeeDTOToEmployeeAllArguments(employeeDTO));
+        return employeeRepository.save(employee);
     }
 
-    public void deleteEmployee(EmployeeDTO employeeDTO) {
-        if (!employeeRepository.existsById(employeeDTO.getId())) {
-            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_WITH_USERNAME_ALREADY_EXISTS, employeeDTO.getId());
+    public Employee deleteEmployee(Long id) {
+        if (!employeeRepository.existsById(id)) {
+            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_WITH_USERNAME_ALREADY_EXISTS, id);
         }
-        employeeRepository.deleteEmployeeById(employeeDTO.getId());
+        return employeeRepository.deleteEmployeeById(id);
     }
 
-    public Employee findEmployeeById(EmployeeDTO employeeDTO) {
-        Optional<Employee> employeeById = employeeRepository.findEmployeeById(employeeDTO.getId());
+    public Employee findEmployeeById(Long id) {
+        Optional<Employee> employeeById = employeeRepository.findEmployeeById(id);
         if (employeeById.isEmpty()) {
-            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_WITH_USERNAME_ALREADY_EXISTS, employeeDTO.getId());
+            throw EmployeeAppErrorMessage.error(EmployeeAppErrorMessage.Message.USER_WITH_USERNAME_ALREADY_EXISTS, id);
         }
         return employeeById.get();
     }
