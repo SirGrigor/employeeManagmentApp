@@ -1,4 +1,4 @@
-package tech.ilgrig.employeemanagmentapp.utils;
+package tech.ilgrig.employeemanagmentapp.exception;
 
 public class EmployeeAppErrorMessage {
     public enum Message {

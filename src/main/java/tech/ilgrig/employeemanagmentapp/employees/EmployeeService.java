@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tech.ilgrig.employeemanagmentapp.exception.ApiRequestException;
 import tech.ilgrig.employeemanagmentapp.utils.EmailValidator;
-import tech.ilgrig.employeemanagmentapp.utils.EmployeeAppErrorMessage;
+import tech.ilgrig.employeemanagmentapp.exception.EmployeeAppErrorMessage;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static tech.ilgrig.employeemanagmentapp.utils.EmployeeAppErrorMessage.Message.*;
+import static tech.ilgrig.employeemanagmentapp.exception.EmployeeAppErrorMessage.Message.*;
 
 @Service
 @AllArgsConstructor
