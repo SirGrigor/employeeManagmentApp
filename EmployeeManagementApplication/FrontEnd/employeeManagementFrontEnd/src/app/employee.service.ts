@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
-import {Employee} from "./employees";
+import {Employee} from "./employee";
 
 @Injectable({providedIn: 'root'})
 export class EmployeeService {
@@ -12,15 +12,15 @@ export class EmployeeService {
   }
 
   public getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(`${this.apiServerUrl}/employee/all`);
+    return this.http.get<Employee[]>(`${this.apiServerUrl}/all`);
   }
 
   public addEmployee(employee: Employee): Observable<Employee> {
-    return this.http.post<Employee>(`${this.apiServerUrl}/employee/add`, employee);
+    return this.http.post<Employee>(`${this.apiServerUrl}/add`, employee);
   }
 
   public updateEmployee(employee: Employee): Observable<Employee> {
-    return this.http.put<Employee>(`${this.apiServerUrl}/employee/update`, employee);
+    return this.http.put<Employee>(`${this.apiServerUrl}/update`, employee);
   }
 
   public deleteEmployee(employeeId: number): Observable<void> {
@@ -28,6 +28,6 @@ export class EmployeeService {
   }
 
   public findEmployeeById(employeeId: number): Observable<void> {
-    return this.http.get<void>(`${this.apiServerUrl}/employee/find/${employeeId}`);
+    return this.http.get<void>(`${this.apiServerUrl}/find/${employeeId}`);
   }
 }
