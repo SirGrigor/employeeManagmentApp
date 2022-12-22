@@ -36,12 +36,4 @@ public class EmployeeAppErrorMessage {
     public static String getMessage(Message message) {
         return String.format(message.getMessageText());
     }
-
-    public static IllegalStateException error(Message message, String email) {
-        return new IllegalStateException(new IllegalStateException(String.format(email, message)));
-    }
-
-    public static IllegalStateException error(Message message, Long id) {
-        return new IllegalStateException(new IllegalStateException(String.format(String.valueOf(id), message)));
-    }
 }
